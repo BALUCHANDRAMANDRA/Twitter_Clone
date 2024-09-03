@@ -275,8 +275,6 @@ app.patch('/dislike/:postId', authMiddleware, async (req, res) => {
         if (post.likes.includes(userId)) {
             post.likes.pull(userId);
         }
-
-        // Add user to dislikes if they haven't disliked the post yet
         if (!post.dislikes.includes(userId)) {
             post.dislikes.push(userId);
         }
@@ -290,9 +288,6 @@ app.patch('/dislike/:postId', authMiddleware, async (req, res) => {
 });
 
 
-// server.js
-
-// Add a comment to a post
 app.post('/posts/:postId/comments', authMiddleware, async (req, res) => {
     const { text } = req.body;
   
@@ -317,7 +312,6 @@ app.post('/posts/:postId/comments', authMiddleware, async (req, res) => {
   
 
 
-// Delete a comment from a post
 app.delete('/posts/:postId/comments/:commentId', authMiddleware, async (req, res) => {
     try {
       const post = await Post.findById(req.params.postId);
@@ -345,11 +339,8 @@ app.delete('/posts/:postId/comments/:commentId', authMiddleware, async (req, res
       res.status(500).json({ message: 'Internal server error' });
     }
   });
-  
 
 
-
-// New endpoint to delete a post
 app.delete('/posts/:id', authMiddleware, async (req, res) => {
     try {
         const postId = req.params.id;
@@ -393,9 +384,6 @@ app.get('/checkEmail/:email', async (req, res) => {
 });
 
 
-
-
-// Error handling middleware
 app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).send('Server Error');
